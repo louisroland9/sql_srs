@@ -19,7 +19,7 @@ with st.sidebar:
     st.write(exercise)
 
     exercise_name = exercise.loc[0, "exercise_name"]
-    with open(f"answers/{exercise_name}.sql", "r") as f:
+    with open(f"answers/{exercise_name}.sql", encoding="utf-8") as f:
         answer = f.read()
 
     solution_df = con.execute(answer).df()
