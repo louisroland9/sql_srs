@@ -32,7 +32,7 @@ solution_df = duckdb.sql(ANSWER_STR).df()
 
 with st.sidebar:
     option = st.selectbox(
-        "What owuld you like to review?",
+        "What would you like to review?",
         ("Joins", "GroupBy", "Window Functions"),
         index=None,
         placeholder="Select a theme",
