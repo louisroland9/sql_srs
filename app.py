@@ -40,16 +40,6 @@ with st.sidebar:
 
     st.write("You selected: ", option)
 
-with st.sidebar:
-    option = st.selectbox(
-        "What owuld you like to review?",
-        ("Joins", "GroupBy", "Window Functions"),
-        index=None,
-        placeholder="Select a theme",
-    )
-
-st.write("You selected: ", option)
-
 st.header("enter your code:")
 query = st.text_area(label="votre code SQL ici", key="user_input")
 
@@ -72,6 +62,7 @@ with tab1:
     st.write(food_items)
     st.write("expected:")
     st.write(solution_df)
+
 
 with tab2:
     st.write(ANSWER_STR)
