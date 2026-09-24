@@ -8,7 +8,9 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = [
+    "black>=26.5.1",
     "duckdb>=1.5.5",
+    "pylint>=4.0.9",
     "streamlit>=1.63.0",
 ]
 
