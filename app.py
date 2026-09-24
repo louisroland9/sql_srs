@@ -53,7 +53,7 @@ if query:
     except KeyError as e:
         st.write("Some columns are missing")
 
-tab1, tab2 = st.tabs(["Tables", "solution_df"])
+tab1, tab2 = st.tabs(["Tables", "Solution"])
 
 with tab1:
     st.write("table: beverages")
