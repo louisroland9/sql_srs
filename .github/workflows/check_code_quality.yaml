@@ -17,4 +17,4 @@ jobs:
           python-version: "3.9"
 
       - name: Run Black
-        run: uv run black --check --verbose .
+        run: uv run black --check --verbose --diff .
