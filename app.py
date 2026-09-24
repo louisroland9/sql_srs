@@ -36,8 +36,8 @@ with st.sidebar:
         index=None,
         placeholder="Select a theme",
     )
-    
-    st.write("You selected: ", option)
+
+st.write("You selected: ", option)
 
 st.header("enter your code:")
 query = st.text_area(label="votre code SQL ici", key="user_input")
