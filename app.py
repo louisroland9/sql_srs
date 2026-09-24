@@ -37,6 +37,7 @@ with st.sidebar:
         index=None,
         placeholder="Select a theme",
     )
+
     st.write("You selected: ", option)
 
 st.header("enter your code:")
