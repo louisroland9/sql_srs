@@ -1,15 +1,14 @@
 # pylint: disable=missing-module-docstring
-import os
-import logging
+import pathlib
+from pathlib import Path
 import duckdb
 import streamlit as st
 
-if "data" not in os.listdir():
-    logging.error(os.listdir())
-    logging.error("creating data folder")
-    os.mkdir("data")
+(Path() / "data").mkdir(exist_ok=True)
 
-if "exercises_sql_tables.duckdb" not in os.listdir("data"):
+DB_PATH = pathlib.Path("data/exercises_sql_tables.duckdb")
+
+if not DB_PATH.exists():
     with open("init_db.py", encoding="utf-8") as file:
         exec(file.read())  # pylint: disable=exec-used
 
@@ -22,14 +21,17 @@ with st.sidebar:
         index=None,
         placeholder="Select a theme",
     )
-
-    st.write("You selected: ", theme)
+    if theme:
+        st.write("You selected: ", theme)
+        SELECT_EXERCISE_QUERY = f"SELECT * FROM memory_state WHERE theme = '{theme}'"
+    else:
+        SELECT_EXERCISE_QUERY = "SELECT * FROM memory_state"
 
     exercise = (
-        con.execute(f"SELECT * FROM memory_state WHERE theme = '{theme}'")
+        con.execute(SELECT_EXERCISE_QUERY)
         .df()
         .sort_values("last_reviewed")
-        .reset_index()
+        .reset_index(drop=True)
     )
     st.write(exercise)
 
