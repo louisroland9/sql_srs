@@ -12,6 +12,21 @@ if not DB_PATH.exists():
     with open("init_db.py", encoding="utf-8") as file:
         exec(file.read())  # pylint: disable=exec-used
 
+
+def check_user_query(user_query: str) -> None:
+    """
+    Checks that user's query is correct by comparing the number of columns and their values
+    """
+    result = con.execute(user_query).df()
+    st.dataframe(result)
+
+    try:
+        result = result[solution_df.columns]
+        st.dataframe(result.compare(solution_df))
+    except KeyError:
+        st.write("Some columns are missing")
+
+
 con = duckdb.connect(database="data/exercises_sql_tables.duckdb", read_only=False)
 
 with st.sidebar:
@@ -45,15 +60,9 @@ with st.sidebar:
 st.header("enter your code:")
 query = st.text_area(label="votre code SQL ici", key="user_input")
 
-if query:
-    result = con.execute(query).df()
-    st.dataframe(result)
 
-    try:
-        result = result[solution_df.columns]
-        st.dataframe(result.compare(solution_df))
-    except KeyError as e:
-        st.write("Some columns are missing")
+if query:
+    check_user_query(query)
 
 tab1, tab2 = st.tabs(["Tables", "Solution"])
 
