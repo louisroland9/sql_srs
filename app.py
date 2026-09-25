@@ -1,6 +1,7 @@
 # pylint: disable=missing-module-docstring
 import pathlib
 from pathlib import Path
+from datetime import date, timedelta
 import duckdb
 import streamlit as st
 
@@ -23,6 +24,9 @@ def check_user_query(user_query: str) -> None:
     try:
         result = result[solution_df.columns]
         st.dataframe(result.compare(solution_df))
+        if result.compare(solution_df).shape == (0, 0):
+            st.write("Bien joué !")
+            st.balloons()
     except KeyError:
         st.write("Some columns are missing")
 
@@ -63,6 +67,17 @@ query = st.text_area(label="votre code SQL ici", key="user_input")
 
 if query:
     check_user_query(query)
+
+for n_days in [2, 7, 21]:
+    if st.button(f"Revoir dans {n_days} jours", key=f"btn_{exercise_name}_{n_days}"):
+        next_review = date.today() + timedelta(days=n_days)
+        con.execute(
+            "UPDATE memory_state SET last_reviewed = $1 WHERE exercise_name = $2",
+            [next_review, exercise_name],
+        )
+        con.commit()
+        st.rerun()
+
 
 tab1, tab2 = st.tabs(["Tables", "Solution"])
 
